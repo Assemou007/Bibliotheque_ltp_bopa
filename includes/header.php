@@ -12,8 +12,7 @@
     <meta property="og:url" content="https://<?= $_SERVER['HTTP_HOST'] ?>">
     <meta property="og:title" content="Bibliothèque Numérique LTP-BOPA">
     <meta property="og:description" content="Accédez à toutes les ressources pédagogiques du LTP-BOPA">
-   
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=<;?= filemtime('assets/css/style.css') ?>">
 </head>
 <body>
     <header class="main-header" role="banner">
@@ -36,37 +35,21 @@
                         <li><a href="index.php" <?= $page=='accueil' ? 'aria-current="page"' : '' ?>>Accueil</a></li>
                         <li class="dropdown">
                             <a href="index.php?page=filiere" aria-expanded="false">Filières</a>
-                            <ul class="dropdown-menu">
-                                <?php
-                                $stmt = $pdo->query("SELECT nom, slug FROM filieres ORDER BY ordre");
-                                while ($filiere = $stmt->fetch()):
-                                ?>
-                                <li><a href="index.php?page=filiere&slug=<;?= $filiere->slug ?>"><?= $filiere->nom ?></a></li>
-                                <?php endwhile; ?>
-                            </ul>
+                           
                         </li>
                         <li><a href="index.php?page=documents-recents">Nouveautés</a></li>
-                        <li><a href="index.php?page=messages">Message</a></li>
                         <li><a href="index.php?page=faq">FAQ</a></li>
-                        <li><a href="index.php?page=contact">Contact</a></li>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <li><a href="index.php?page=dashboard">Mon compte</a></li>
+                        <li><a href="index.php?page=deconnexion">Déconnexion</a></li>
+                    <?php else: ?>
+                        <li><a href="index.php?page=connexion" class="btn btn-succes">Connexion</a></li>
+                        <li><a href="index.php?page=inscription">Inscription</a></li>
+                    <?php endif; ?>
                     </ul>
                 </nav>
-               
                 <!-- Barre de recherche -->
-                <div class="header-search">
-                    <form action="index.php" method="get" role="search">
-                        <input type="hidden" name="page" value="recherche">
-                        <div class="search-wrapper">
-                            <input type="search"
-                                   name="q"
-                                   placeholder="Rechercher un document..."
-                                   aria-label="Rechercher"
-                                   value="<?= isset($_GET['q']) ? cleanInput($_GET['q']) : '' ?>"
-                                   autocomplete="on">
-                            <button type="submit" aria-label="Lancer la recherche">🔍</button>
-                        </div>
-                    </form>
-                </div>
+
             </div>
         </div>
     </header>

@@ -20,6 +20,10 @@ $allowed_pages = [
     'recherche' => 'recherche.php',
     'messages' => 'messages.php',
     'message-detail' => 'message-detail.php',
+    'inscription' => 'register.php',
+    'connexion' => 'login.php',
+    'deconnexion' => 'logout.php',
+    'dashboard' => 'dashboard.php',
    
     // Pages informatives
     'a-propos' => 'a-propos.php',

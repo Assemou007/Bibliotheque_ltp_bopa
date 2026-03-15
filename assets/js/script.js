@@ -306,3 +306,81 @@ function formatDate(dateString) {
 function confirmAction(message) {
     return confirm(message || 'Êtes-vous sûr de vouloir continuer ?');
 }
+
+const chatWidget = document.getElementById('chatWidget');
+if (chatWidget) {
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    chatWidget.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.chat-button')) {
+            isDragging = true;
+            offsetX = e.clientX - chatWidget.getBoundingClientRect().left;
+            offsetY = e.clientY - chatWidget.getBoundingClientRect().top;
+            chatWidget.style.cursor = 'grabbing';
+        }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            e.preventDefault();
+            const x = e.clientX - offsetX;
+            const y = e.clientY - offsetY;
+            chatWidget.style.left = x + 'px';
+            chatWidget.style.top = y + 'px';
+            chatWidget.style.right = 'auto';
+            chatWidget.style.bottom = 'auto';
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+        chatWidget.style.cursor = 'grab';
+    });
+}
+
+// ========== NOTIFICATIONS ==========
+const notificationContainer = document.createElement('div');
+notificationContainer.className = 'notification-container';
+document.body.appendChild(notificationContainer);
+
+window.showNotification = function(title, message, type = 'info', duration = 5000) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+   
+    const icons = {
+        success: '✅',
+        info: 'ℹ️',
+        warning: '⚠️',
+        error: '❌'
+    };
+   
+    notification.innerHTML = `
+        <div class="notification-icon">${icons[type] || '📢'}</div>
+        <div class="notification-content">
+            <div class="notification-title">${title}</div>
+            <div class="notification-message">${message}</div>
+        </div>
+        <button class="notification-close">&times;</button>
+    `;
+   
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        notification.style.animation = 'fadeOut 0.2s forwards';
+        setTimeout(() => notification.remove(), 200);
+    });
+   
+    notificationContainer.appendChild(notification);
+   
+    if (duration > 0) {
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'fadeOut 0.2s forwards';
+                setTimeout(() => notification.remove(), 200);
+            }
+        }, duration);
+    }
+};
+
+// Exemples d'utilisation :
+// showNotification('Bienvenue', 'Vous êtes connecté', 'success');
+// showNotification('Téléchargement', 'Le fichier a été téléchargé', 'info');

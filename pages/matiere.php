@@ -80,7 +80,7 @@ updateDailyStats($pdo, 'vues_total');
             <div class="matiere-breadcrumb">
                 <a href="index.php?page=accueil">Accueil</a>
                 <span class="separator">›</span>
-                <a href="index.php?page=filiere&slug=<;?= $matiere->filiere_slug ?>"><?= htmlspecialchars($matiere->filiere_nom) ?></a>
+                <a href="index.php?page=filiere&slug=<?= $matiere->filiere_slug ?>"><?= htmlspecialchars($matiere->filiere_nom) ?></a>
                 <span class="separator">›</span>
                 <span><?= htmlspecialchars($matiere->nom) ?></span>
             </div>
@@ -132,7 +132,7 @@ updateDailyStats($pdo, 'vues_total');
                     $type = getDocumentTypeLabel($doc->type_document);
                     $file_ext = strtoupper($doc->format_fichier);
                     $file_icon = $file_ext == 'PDF' ? '📕' : ($file_ext == 'DOCX' ? '📘' : '📗');
-                ?>
+                 ?>
                 <div class="document-card" data-type="<?= $doc->type_document ?>">
                     <div class="document-card-header">
                         <div class="document-type-badge" style="background-color: <?= $matiere->filiere_couleur ?>20; color: <?= $matiere->filiere_couleur ?>">

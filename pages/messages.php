@@ -1,45 +1,44 @@
 <?php
-// pages/messages.php
-
-// Traitement du formulaire
-$success_message = '';
-$error_message = '';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'nouveau_message') {
-    // Vérifier token CSRF
-    if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
-        $error_message = 'Erreur de sécurité. Veuillez réessayer.';
+    // Activer l'affichage des erreurs pour debug (à enlever après)
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
+    // Vérification du token CSRF
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $error_message = "Erreur de sécurité. Veuillez réessayer.";
     } else {
-        $nom = cleanInput($_POST['nom'] ?? '');
-        $email = cleanInput($_POST['email'] ?? '');
-        $type = cleanInput($_POST['type'] ?? '');
-        $titre = cleanInput($_POST['titre'] ?? '');
-        $contenu = cleanInput($_POST['contenu'] ?? '');
-       
+        $nom = trim($_POST['nom'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $type = $_POST['type'] ?? '';
+        $titre = trim($_POST['titre'] ?? '');
+        $contenu = trim($_POST['contenu'] ?? '');
+
         // Validation
         $errors = [];
-        if (empty($nom)) $errors[] = "Le nom est requis";
-        if (empty($titre)) $errors[] = "Le titre est requis";
-        if (empty($contenu)) $errors[] = "Le message est requis";
+        if (empty($nom)) $errors[] = "Le nom est requis.";
+        if (empty($titre)) $errors[] = "Le titre est requis.";
+        if (empty($contenu)) $errors[] = "Le message est requis.";
         if (!in_array($type, ['avis', 'suggestion', 'plainte', 'question', 'temoignage'])) {
-            $errors[] = "Type de message invalide";
+            $errors[] = "Type de message invalide.";
         }
         if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = "Email invalide";
+            $errors[] = "L'email n'est pas valide.";
         }
-       
+
         if (empty($errors)) {
-            $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+            // Insertion en base
+            $ip = $_SERVER['REMOTE_ADDR'] ?? '';
             $stmt = $pdo->prepare("
-                INSERT INTO messages_publics (nom_utilisateur, email, type_message, titre, contenu, ip_address)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO messages_publics (nom_utilisateur, email, type_message, titre, contenu, ip_address, statut)
+                VALUES (?, ?, ?, ?, ?, ?, 'en_attente')
             ");
-           
             if ($stmt->execute([$nom, $email, $type, $titre, $contenu, $ip])) {
-                $success_message = "Votre message a été envoyé et sera visible après modération. Merci pour votre contribution !";
-                updateDailyStats($pdo, 'messages_publics_total');
+                $success_message = "Votre message a été envoyé et sera visible après modération.";
+                // On vide le formulaire
+                $_POST = [];
             } else {
-                $error_message = "Une erreur est survenue. Veuillez réessayer.";
+                $error_message = "Erreur lors de l'envoi. Veuillez réessayer.";
             }
         } else {
             $error_message = implode('<br>', $errors);

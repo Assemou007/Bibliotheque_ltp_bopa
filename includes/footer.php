@@ -31,7 +31,7 @@
                         $stmt = $pdo->query("SELECT nom, slug FROM filieres ORDER BY ordre LIMIT 5");
                         while ($filiere = $stmt->fetch()):
                         ?>
-                        <li><a href="index.php?page=filiere&slug=<;?= $filiere->slug ?>"><?= $filiere->nom ?></a></li>
+                        <li><a href="index.php?page=filiere&slug=<?= $filiere->slug ?>"><?= $filiere->nom ?></a></li>
                         <?php endwhile; ?>
                         <li><a href="index.php?page=filiere">Toutes les filières</a></li>
                     </ul>

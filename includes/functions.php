@@ -123,4 +123,54 @@ function generateCSRFToken() {
 function verifyCSRFToken($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
+
+// Vérifier si l'utilisateur est connecté
+function estConnecte() {
+    return isset($_SESSION['user_id']);
+}
+
+// Rediriger si non connecté
+function requireAuth() {
+    if (!estConnecte()) {
+        header('Location: index.php?page=connexion');
+        exit;
+    }
+}
+
+// Rediriger si déjà connecté (pour les pages de login/register)
+function requireGuest() {
+    if (estConnecte()) {
+        header('Location: index.php?page=dashboard');
+        exit;
+    }
+}
+
+// Vérifier si l'utilisateur est admin
+function estAdmin() {
+    return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
+}
+
+function getInitials($name) {
+    $words = explode(' ', trim($name));
+    $initials = '';
+    foreach ($words as $w) {
+        if (!empty($w)) {
+            $initials .= strtoupper($w[0]);
+        }
+    }
+    return substr($initials, 0, 2); // max 2 caractères
+}
+
+function getColorFromString($str) {
+    $hash = 0;
+    for ($i = 0; $i < strlen($str); $i++) {
+        $hash = ord($str[$i]) + (($hash << 5) - $hash);
+    }
+    $color = '#';
+    for ($i = 0; $i < 3; $i++) {
+        $value = ($hash >> ($i * 8)) & 0xFF;
+        $color .= str_pad(dechex($value), 2, '0', STR_PAD_LEFT);
+    }
+    return $color;
+}
 ?>

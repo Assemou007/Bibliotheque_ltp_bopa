@@ -10,47 +10,40 @@ $offset = ($page_num - 1) * $per_page;
 $resultats = [];
 $total = 0;
 
-if (!empty($query) && strlen($query) >= 2) {
-    // Recherche dans les documents
-    $sql = "
-        SELECT d.*,
-               m.nom as matiere_nom,
-               f.nom as filiere_nom,
-               f.slug as filiere_slug,
-               'document' as type_resultat,
-               MATCH(d.titre, d.description) AGAINST(? IN NATURAL LANGUAGE MODE) as score
-        FROM documents d
-        JOIN matieres m ON d.matiere_id = m.id
-        JOIN filieres f ON m.filiere_id = f.id
-        WHERE MATCH(d.titre, d.description) AGAINST(? IN NATURAL LANGUAGE MODE)
-          AND d.est_public = 1
-    ";
-   
-    $params = [$query, $query];
-   
-    // Compter le total
-    $count_sql = "
-        SELECT COUNT(*) as total
-        FROM documents d
-        WHERE MATCH(d.titre, d.description) AGAINST(? IN NATURAL LANGUAGE MODE)
-          AND d.est_public = 1
-    ";
-    $count_stmt = $pdo->prepare($count_sql);
-    $count_stmt->execute([$query]);
-    $total = $count_stmt->fetch()->total;
-   
-    // Récupérer les résultats paginés
-    $sql .= " ORDER BY score DESC LIMIT ? OFFSET ?";
-    $params[] = $per_page;
-    $params[] = $offset;
-   
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    $resultats = $stmt->fetchAll();
-   
-    // Loguer la recherche
-    logAction($pdo, 'recherche', 'recherche');
-    updateDailyStats($pdo, 'recherches_total');
+if (!empty($query)) {
+    if (strlen($query) == 1) {
+        // Recherche simple avec LIKE
+        $sql = "
+            SELECT d.*, m.nom as matiere_nom, f.nom as filiere_nom, f.slug as filiere_slug
+            FROM documents d
+            JOIN matieres m ON d.matiere_id = m.id
+            JOIN filieres f ON m.filiere_id = f.id
+            WHERE d.est_public = 1
+              AND (d.titre LIKE :q OR d.description LIKE :q)
+            ORDER BY d.created_at DESC
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['q' => "%$query%"]);
+        $resultats = $stmt->fetchAll();
+        $total = count($resultats);
+        // Pas de pagination simple ici, tu peux adapter
+    } else {
+        // Recherche FULLTEXT
+        $sql = "
+            SELECT d.*, m.nom as matiere_nom, f.nom as filiere_nom, f.slug as filiere_slug,
+                   MATCH(d.titre, d.description) AGAINST(:q) as score
+            FROM documents d
+            JOIN matieres m ON d.matiere_id = m.id
+            JOIN filieres f ON m.filiere_id = f.id
+            WHERE MATCH(d.titre, d.description) AGAINST(:q)
+              AND d.est_public = 1
+            ORDER BY score DESC
+        ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['q' => $query]);
+        $resultats = $stmt->fetchAll();
+        $total = count($resultats);
+    }
 }
 
 $total_pages = $total > 0 ? ceil($total / $per_page) : 0;

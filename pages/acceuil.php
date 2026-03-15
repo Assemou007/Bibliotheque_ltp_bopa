@@ -86,7 +86,7 @@ logAction($pdo, 'accueil', 'vue');
    
     <div class="filieres-grid">
         <?php foreach ($filieres as $filiere): ?>
-        <a href="index.php?page=filiere&slug=<;?= $filiere->slug ?>" class="filiere-card" style="border-top-color: <?= $filiere->couleur ?>">
+        <a href="index.php?page=filiere&slug=<?= $filiere->slug ?>" class="filiere-card" style="border-top-color: <?= $filiere->couleur ?>">
             <div class="card-icon"><?= $filiere->icone ?></div>
             <h3><?= $filiere->nom ?></h3>
             <p><?= $filiere->description ?></p>
@@ -97,42 +97,6 @@ logAction($pdo, 'accueil', 'vue');
 </section>
 
 
-<section class="documents-section">
-    <div class="section-header">
-        <h2>📚 Documents récents</h2>
-        <p>Les dernières ressources ajoutées à la bibliothèque</p>
-        <a href="index.php?page=documents-recents" class="section-link">Voir tout →</a>
-    </div>
-   
-    <div class="documents-grid">
-        <?php foreach ($documents_recents as $doc):
-            $type = getDocumentTypeLabel($doc->type_document);
-        ?>
-        <div class="document-card">
-            <div class="card-header">
-                <span class="document-type" style="background-color: <?= $filiere->couleur ?? '#3498db' ?>20">
-                    <?= $type['icon'] ?> <?= $type['label'] ?>
-                </span>
-                <span class="document-format">📄 <?= strtoupper($doc->format_fichier) ?></span>
-            </div>
-           
-            <h3><?= htmlspecialchars($doc->titre) ?></h3>
-           
-            <div class="document-meta">
-                <span class="meta-item">📁 <?= htmlspecialchars($doc->filiere_nom) ?></span>
-                <span class="meta-item">📘 <?= htmlspecialchars($doc->matiere_nom) ?></span>
-            </div>
-           
-            <p class="document-description"><?= htmlspecialchars(substr($doc->description, 0, 100)) ?>...</p>
-           
-            <div class="card-footer">
-                <span class="document-date">📅 <?= date('d/m/Y', strtotime($doc->created_at)) ?></span>
-                <a href="assets/uploads/<?= $doc->chemin_fichier ?>" class="btn-view" target="_blank">Consulter</a>
-            </div>
-        </div>
-        <?php endforeach; ?>
-    </div>
-</section>
 
 <div class="home-columns">
 
