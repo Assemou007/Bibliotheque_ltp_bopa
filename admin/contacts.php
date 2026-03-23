@@ -28,16 +28,16 @@ $contacts = $pdo->query("SELECT * FROM contacts ORDER BY lu ASC, created_at DESC
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="index.php" class="active">🏠 Dashboard</a></li>
-                    <li><a href="documents.php">📄 Documents</a></li>
-                    <li><a href="filieres.php">🏫 Filières</a></li>
-                    <li><a href="matieres.php">📘 Matières</a></li>
-                    <li><a href="messages.php">💬 Messages publics</a></li>
-                    <li><a href="contacts.php">📧 Contacts</a></li>
-                    <li><a href="faq.php">❓ FAQ</a></li>
-                    <li><a href="statistiques.php">📊 Statistiques</a></li>
-                    <li><a href="parametres.php">⚙️ Paramètres</a></li>
-                    <li><a href="logout.php">🚪 Déconnexion</a></li>
+<li><a href="index.php" class="active"><i class="fas fa-house"></i> Dashboard</a></li>
+                    <li><a href="documents.php"><i class="fas fa-file-pdf"></i> Documents</a></li>
+                    <li><a href="filieres.php"><i class="fas fa-school"></i> Filières</a></li>
+                    <li><a href="matieres.php"><i class="fas fa-book"></i> Matières</a></li>
+                    <li><a href="messages.php"><i class="fas fa-comment"></i> Messages publics</a></li>
+                    <li><a href="contacts.php"><i class="fas fa-envelope"></i> Contacts</a></li>
+                    <li><a href="faq.php"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                    <li><a href="statistiques.php"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+                    <li><a href="parametres.php"><i class="fas fa-cog"></i> Paramètres</a></li>
+                    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                 </ul>
             </nav>
         </aside>
@@ -64,10 +64,16 @@ $contacts = $pdo->query("SELECT * FROM contacts ORDER BY lu ASC, created_at DESC
                         <td><?= htmlspecialchars($c->sujet) ?></td>
                         <td><?= date('d/m/Y H:i', strtotime($c->created_at)) ?></td>
                         <td>
-                            <a href="contact_detail.php?id=<;?= $c->id ?>" class="btn-view">👁️</a>
-                            <?php if (!$c->lu): ?>
-                                <a href="?mark_read=1&id=<?= $c->id ?>" class="btn-approve" onclick="return confirm('Marquer comme lu ?')">📩</a>
-                            <?php endif; ?>
+                            <div class="action-buttons">
+                                <a href="contact_detail.php?id=<?= $c->id ?>" class="btn-action btn-view" title="Détail">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <?php if (!$c->lu): ?>
+                                    <a href="?mark_read=1&id=<?= $c->id ?>" class="btn-action btn-approve" onclick="return confirm('Marquer lu ?')" title="Marquer lu">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </td>
                     </tr>
                     <?php endforeach; ?>

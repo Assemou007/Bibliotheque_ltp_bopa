@@ -12,15 +12,19 @@
     <meta property="og:url" content="https://<?= $_SERVER['HTTP_HOST'] ?>">
     <meta property="og:title" content="Bibliothèque Numérique LTP-BOPA">
     <meta property="og:description" content="Accédez à toutes les ressources pédagogiques du LTP-BOPA">
-    <link rel="stylesheet" href="assets/css/style.css?v=<;?= filemtime('assets/css/style.css') ?>">
+<link rel="stylesheet" href="assets/css/style.css?v=<?= filemtime('assets/css/style.css') ?>">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
 </head>
-<body>
+<body data-page="<?= htmlspecialchars($page ?? 'accueil') ?>">
     <header class="main-header" role="banner">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
                     <a href="index.php" aria-label="Accueil">
-                        <span class="logo-icon">📚</span>
+
+                        <span class="logo-icon"><i class="fas fa-book-open"></i></span>
+
                         <span class="logo-text">LTP-BOPA<span class="logo-highlight">Numérique</span></span>
                     </a>
                 </div>            
@@ -43,17 +47,29 @@
                         <li><a href="index.php?page=dashboard">Mon compte</a></li>
                         <li><a href="index.php?page=deconnexion">Déconnexion</a></li>
                     <?php else: ?>
+                    <li><a href="index.php?page=contact">Contact</a></li>
                         <li><a href="index.php?page=connexion" class="btn btn-succes">Connexion</a></li>
                         <li><a href="index.php?page=inscription">Inscription</a></li>
                     <?php endif; ?>
                     </ul>
                 </nav>
-                <!-- Barre de recherche -->
+
 
             </div>
         </div>
     </header>
 
+    <!-- Page Loader - LTP-BOPA Logo -->
+    <div class="page-loader" id="pageLoader">
+        <div class="loader-content">
+            <img src="assets/img/logo.png" alt="LTP-BOPA Logo" class="loader-logo">
+            <h1 class="loader-title">LTP-BOPA</h1>
+            <h2 class="loader-subtitle">Lycée Technique de Porto-Novo</h2>
+            <div class="loader-spinner"></div>
+            <div class="loader-text">Chargement de la bibliothèque...</div>
+        </div>
+    </div>
+    
     <!-- Main content -->
     <main id="main-content" class="main-content" role="main">
         <div class="container">

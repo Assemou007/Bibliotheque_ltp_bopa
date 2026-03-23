@@ -24,6 +24,7 @@ $allowed_pages = [
     'connexion' => 'login.php',
     'deconnexion' => 'logout.php',
     'dashboard' => 'dashboard.php',
+    'profil' => 'profil.php',
    
     // Pages informatives
     'a-propos' => 'a-propos.php',
@@ -45,13 +46,16 @@ if (!isset($allowed_pages[$page])) {
     header("HTTP/1.0 404 Not Found");
 }
 
-// Inclure l'en-tête
-include 'includes/header.php';
+// Inclure l'en-tête seulement si pas login/register
+if (!in_array($page, ['connexion', 'inscription'])) {
+    include 'includes/header.php';
+}
 
 // Inclure la page demandée
 include 'pages/' . $allowed_pages[$page];
 
+if (!in_array($page, ['connexion', 'inscription'])) {
+    include 'includes/footer.php';
+}
 
-// Inclure le pied de page
-include 'includes/footer.php';
 ?>

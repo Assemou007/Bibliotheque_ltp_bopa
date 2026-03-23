@@ -150,6 +150,8 @@ function estAdmin() {
     return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
 }
 
+
+
 function getInitials($name) {
     $words = explode(' ', trim($name));
     $initials = '';

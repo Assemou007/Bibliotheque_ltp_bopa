@@ -87,7 +87,7 @@ logAction($pdo, 'accueil', 'vue');
     <div class="filieres-grid">
         <?php foreach ($filieres as $filiere): ?>
         <a href="index.php?page=filiere&slug=<?= $filiere->slug ?>" class="filiere-card" style="border-top-color: <?= $filiere->couleur ?>">
-            <div class="card-icon"><?= $filiere->icone ?></div>
+            <div class="card-icon"><img class="img" src="<?= $filiere->icone ?>" alt=""></div>
             <h3><?= $filiere->nom ?></h3>
             <p><?= $filiere->description ?></p>
             <span class="card-link">Voir les matières →</span>
@@ -109,7 +109,7 @@ logAction($pdo, 'accueil', 'vue');
         <div class="popular-list">
             <?php foreach ($documents_populaires as $doc): ?>
             <div class="popular-item">
-                <span class="popular-icon">📄</span>
+                <span class="popular-icon"><i class="fas fa-file-pdf"></i></span>
                 <div class="popular-info">
                     <h4><a href="assets/uploads/<?= $doc->chemin_fichier ?>"><?= htmlspecialchars($doc->titre) ?></a></h4>
                     <span class="popular-meta"><?= $doc->filiere_nom ?> • <?= $doc->matiere_nom ?></span>
@@ -138,7 +138,7 @@ logAction($pdo, 'accueil', 'vue');
                     <span class="message-type" style="background-color: <?= $type['color'] ?>20; color: <?= $type['color'] ?>">
                         <?= $type['icon'] ?> <?= $type['label'] ?>
                     </span>
-                    <h4><a href="index.php?page=message-detail&id=<;?= $msg->id ?>"><?= htmlspecialchars($msg->titre) ?></a></h4>
+                    <h4><a href="index.php?page=message-detail&id=<?= $msg->id ?>"><?= htmlspecialchars($msg->titre) ?></a></h4>
                     <span class="message-author">Par <?= htmlspecialchars($msg->nom_utilisateur) ?></span>
                 </div>
                 <?php endforeach; ?>

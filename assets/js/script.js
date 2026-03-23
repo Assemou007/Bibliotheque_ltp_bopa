@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initChat();
     initAutoComplete();
     initSmoothScroll();
+    initPageTransitions();
 });
 
 // ============================================
@@ -66,8 +67,9 @@ function initChat() {
         });
     }
    
-    function toggleChat() {
+function toggleChat() {
         isOpen = !isOpen;
+        chatWidget.classList.toggle('expanded', isOpen);
         chatBody.classList.toggle('active', isOpen);
         chatToggle.textContent = isOpen ? '−' : '+';
         chatToggle.setAttribute('aria-expanded', isOpen);
@@ -339,6 +341,25 @@ if (chatWidget) {
     });
 }
 
+// ============================================
+// PAGE TRANSITIONS & LOADER
+// ============================================
+function initPageTransitions() {
+    const loader = document.getElementById('pageLoader');
+    if (!loader) return;
+    
+    // FORCE 10s loader on homepage - VERY VISIBLE
+    if (document.body.getAttribute('data-page') === 'accueil' || window.location.pathname.endsWith('/')) {
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+        }, 3000);
+    } else {
+        loader.style.opacity = '0';
+        loader.style.visibility = 'hidden';
+    }
+}
+
 // ========== NOTIFICATIONS ==========
 const notificationContainer = document.createElement('div');
 notificationContainer.className = 'notification-container';
@@ -381,6 +402,5 @@ window.showNotification = function(title, message, type = 'info', duration = 500
     }
 };
 
-// Exemples d'utilisation :
-// showNotification('Bienvenue', 'Vous êtes connecté', 'success');
+
 // showNotification('Téléchargement', 'Le fichier a été téléchargé', 'info');

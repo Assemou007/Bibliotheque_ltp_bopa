@@ -2,16 +2,16 @@
 <div class="chat-widget" id="chatWidget" aria-label="Assistant virtuel">
     <div class="chat-header" id="chatHeader">
         <div class="chat-title">
-            <span class="chat-icon">🤖</span>
+            <span class="chat-icon"><i class="fas fa-robot"></i></span>
             <span>Assistant LTP-BOPA</span>
         </div>
-        <button class="chat-toggle" id="chatToggle" aria-label="Ouvrir/Fermer le chat">+</button>
+        <button class="chat-toggle" id="chatToggle" aria-label="Ouvrir/Fermer le chat"><i class="fas fa-robot"></i></button>
     </div>
    
     <div class="chat-body" id="chatBody">
         <div class="chat-messages" id="chatMessages">
             <div class="message bot-message">
-                <div class="message-avatar">🤖</div>
+                <div class="message-avatar"><i class="fas fa-robot"></i></div>
                 <div class="message-content">
                     Bonjour ! Je suis l'assistant virtuel du LTP-BOPA. Je peux vous aider à :
                     <ul>
@@ -47,7 +47,7 @@
 <!-- Templates pour les messages -->
 <template id="botMessageTemplate">
     <div class="message bot-message">
-        <div class="message-avatar">🤖</div>
+        <div class="message-avatar"><i class="fas fa-robot"></i></div>
         <div class="message-content"></div>
     </div>
 </template>
@@ -60,7 +60,7 @@
 
 <template id="typingTemplate">
     <div class="message bot-message typing-indicator">
-        <div class="message-avatar">🤖</div>
+        <div class="message-avatar"><i class="fas fa-robot"></i></div>
         <div class="message-content">
             <span>.</span><span>.</span><span>.</span>
         </div>

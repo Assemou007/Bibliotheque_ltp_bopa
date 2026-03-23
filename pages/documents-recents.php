@@ -63,9 +63,8 @@ logAction($pdo, 'documents-recents', 'vue');
                 <div class="document-footer">
                     <span class="document-date">📅 <?= date('d/m/Y', strtotime($doc->created_at)) ?></span>
                     <div class="document-actions">
-                    <a href="assets/uploads/<?= $doc->chemin_fichier ?>" class="btn-view" target="_blank">Consulter</a>
-                    <a href="assets/uploads/<?= $doc->chemin_fichier ?>" class="btn-download" download>Download📥</a>
-                </div>
+                    <a href="document.php?id=<?= $doc->id ?>&action=view" class="btn-view" target="_blank">Consulter</a>
+                    <a href="document.php?id=<?= $doc->id ?>&action=download" class="btn-download">📥</a>                </div>
                 </div>
             </div>
             <?php endforeach; ?>

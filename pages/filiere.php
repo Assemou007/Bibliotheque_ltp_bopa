@@ -29,7 +29,7 @@ if (!$slug) {
         <?php foreach ($filieres as $filiere): ?>
             <div class="filiere-card-large" style="border-color: <?= $filiere->couleur ?>;">
                 <div class="card-header">
-                    <span class="filiere-icon"><?= $filiere->icone ?></span>
+                    <span class="filiere-icon"><img src="<?= $filiere->icone ?>" alt=""></span>
                     <h2><?= htmlspecialchars($filiere->nom) ?></h2>
                 </div>
                 <p class="filiere-description"><?= htmlspecialchars($filiere->description) ?></p>
@@ -89,7 +89,7 @@ if (!$slug) {
     <div class="filiere-hero" style="background: linear-gradient(135deg, <?= $filiere->couleur ?> 0%, <?= $filiere->couleur ?>90 100%);">
         <div class="container">
             <div class="filiere-hero-content">
-                <span class="filiere-icon-large"><?= $filiere->icone ?></span>
+                <span class="filiere-icon-large"><img src="<?= $filiere->icone ?>" alt=""></span>
                 <h1><?= htmlspecialchars($filiere->nom) ?></h1>
                 <p><?= htmlspecialchars($filiere->description) ?></p>
             </div>
@@ -128,7 +128,7 @@ if (!$slug) {
                     <div class="document-mini-card">
                         <span class="docs-icon">📄</span>
                         <div class="docs-info">
-                            <a href="document.php?id=<;?= $doc->id ?>&action=view" class="docs-title"><?= htmlspecialchars($doc->titre) ?></a>
+
                             <span class="docs-meta"><?= htmlspecialchars($doc->matiere_nom) ?> • <?= date('d/m/Y', strtotime($doc->created_at)) ?></span>
                         </div>
                     </div>

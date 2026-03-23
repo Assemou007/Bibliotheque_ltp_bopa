@@ -4,6 +4,7 @@ require_once 'config.php';
 
 // Récupérer quelques statistiques
 $stats = [
+    'user' => $pdo->query("SELECT COUNT(*) FROM utilisateurs")->fetchColumn(),
     'documents' => $pdo->query("SELECT COUNT(*) FROM documents")->fetchColumn(),
     'filieres' => $pdo->query("SELECT COUNT(*) FROM filieres")->fetchColumn(),
     'matieres' => $pdo->query("SELECT COUNT(*) FROM matieres")->fetchColumn(),
@@ -45,16 +46,16 @@ $derniers_contacts = $pdo->query("
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="index.php" class="active">🏠 Dashboard</a></li>
-                    <li><a href="documents.php">📄 Documents</a></li>
-                    <li><a href="filieres.php">🏫 Filières</a></li>
-                    <li><a href="matieres.php">📘 Matières</a></li>
-                    <li><a href="messages.php">💬 Messages publics</a></li>
-                    <li><a href="contacts.php">📧 Contacts</a></li>
-                    <li><a href="faq.php">❓ FAQ</a></li>
-                    <li><a href="statistiques.php">📊 Statistiques</a></li>
-                    <li><a href="parametres.php">⚙️ Paramètres</a></li>
-                    <li><a href="logout.php">🚪 Déconnexion</a></li>
+<li><a href="index.php" class="active"><i class="fas fa-house"></i> Dashboard</a></li>
+                    <li><a href="documents.php"><i class="fas fa-file-pdf"></i> Documents</a></li>
+                    <li><a href="filieres.php"><i class="fas fa-school"></i> Filières</a></li>
+                    <li><a href="matieres.php"><i class="fas fa-book"></i> Matières</a></li>
+                    <li><a href="messages.php"><i class="fas fa-comment"></i> Messages publics</a></li>
+                    <li><a href="contacts.php"><i class="fas fa-envelope"></i> Contacts</a></li>
+                    <li><a href="faq.php"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                    <li><a href="statistiques.php"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+                    <li><a href="parametres.php"><i class="fas fa-cog"></i> Paramètres</a></li>
+                    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                 </ul>
             </nav>
         </aside>
@@ -70,45 +71,52 @@ $derniers_contacts = $pdo->query("
            
             <div class="admin-stats">
                 <div class="stat-card">
-                    <div class="stat-icon">📄</div>
+                    <div class="stat-icon"><i class="fas fa-file-pdf"></i> </div>
                     <div class="stat-detail">
                         <span class="stat-value"><?= $stats['documents'] ?></span>
                         <span class="stat-label">Documents</span>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">🏫</div>
+                    <div class="stat-icon"><i class="fas fa-school"></i></div>
                     <div class="stat-detail">
                         <span class="stat-value"><?= $stats['filieres'] ?></span>
                         <span class="stat-label">Filières</span>
                     </div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon">📘</div>
+                    <div class="stat-icon"><i class="fas fa-book"></i></div>
                     <div class="stat-detail">
                         <span class="stat-value"><?= $stats['matieres'] ?></span>
                         <span class="stat-label">Matières</span>
                     </div>
                 </div>
                 <div class="stat-card warning">
-                    <div class="stat-icon">⏳</div>
+                    <div class="stat-icon"><i class="fas fa-comment"></i></div>
                     <div class="stat-detail">
                         <span class="stat-value"><?= $stats['messages_attente'] ?></span>
                         <span class="stat-label">Messages en attente</span>
                     </div>
                 </div>
                 <div class="stat-card info">
-                    <div class="stat-icon">📧</div>
+                    <div class="stat-icon"><i class="fas fa-envelope"></i></div>
                     <div class="stat-detail">
                         <span class="stat-value"><?= $stats['contacts_non_lus'] ?></span>
                         <span class="stat-label">Contacts non lus</span>
                     </div>
                 </div>
                 <div class="stat-card success">
-                    <div class="stat-icon">👁️</div>
+                    <div class="stat-icon"><i class="fas fa-eye"></i></div>
                     <div class="stat-detail">
                         <span class="stat-value"><?= number_format($stats['documents_populaires'] ?? 0) ?></span>
                         <span class="stat-label">Vues totales</span>
+                    </div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-icon"><i class="fas fa-user"></i></div>
+                    <div class="stat-detail">
+                        <span class="stat-value"><?= number_format($stats['user'] ?? 0) ?></span>
+                        <span class="stat-label">Utilisateurs totales</span>
                     </div>
                 </div>
             </div>
